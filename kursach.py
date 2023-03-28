@@ -25,22 +25,25 @@ def U_calculation_z_const(n, L, T, c, lyambda):
     U = 0
     tmp_z = L / 3
     interval_z = [tmp_z, tmp_z * 2, L]
-    interval_t = np.linspace(0, T, n)
+    interval_t = np.linspace(0, T, 100)
     tmp_U = []
     U_data = []
     w = (2 * math.pi * c) / lyambda
     for z in interval_z:
-        for i_n in range(n):
-            Pn = Po_n(i_n, L)
-            W_n = c * Pn
-            U += math.sin(Pn * z) * (W_n * math.sin(w * interval_t[i_n]) - w * math.sin(W_n * interval_t[i_n])) / (
-                    W_n ** 2 - w ** 2)
+        for t in interval_t:
+            for i_n in range(n):
+                Pn = Po_n(i_n, L)
+                W_n = Pn * c
+                if W_n - w == 0:
+                    U += math.sin(Pn * z) * (math.sin(w * t) - w * t * math.cos(W_n * t)) / (2 * W_n)
+                    print(t, z, i_n)
+                else:
+                    U += math.sin(Pn * z) * (W_n * math.sin(w * t) - w * math.sin(W_n * t)) / (W_n ** 2 - w ** 2)
             tmp_U.append(U)
+            U = 0
         result = list(map(lambda item: item * 2 * c / L, tmp_U))
-        U = 0
         tmp_U.clear()
         U_data.append(result)
-
     return U_data, interval_t, interval_z
 
 
@@ -49,26 +52,30 @@ def U_calculation_t_const(n, L, T, c, lyambda):
     tmp_t = T / 3
 
     interval_t = [tmp_t, tmp_t * 2, T]
-    interval_z = np.linspace(0, L, n)
+    interval_z = np.linspace(0, L, 100)
     tmp_U = []
     U_data = []
     w = (2 * math.pi * c) / lyambda
     for t in interval_t:
-        for i_n in range(n):
-            Pn = Po_n(i_n, L)
-            W_n = Pn * c
-            U += math.sin(Pn * interval_z[i_n]) * (W_n * math.sin(w * t) - w * math.sin(W_n * t)) / (W_n ** 2 - w ** 2)
+        for z in interval_z:
+            for i_n in range(n):
+                Pn = Po_n(i_n, L)
+                W_n = Pn * c
+                if W_n - w == 0:
+                    U += math.sin(Pn * z) * (math.sin(w * t) - w * t * math.cos(W_n * t)) / (2 * W_n)
+                    print(t, z, i_n)
+                else:
+                    U += math.sin(Pn * z) * (W_n * math.sin(w * t) - w * math.sin(W_n * t)) / (W_n ** 2 - w ** 2)
             tmp_U.append(U)
+            U = 0
         result = list(map(lambda item: item * 2 * c / L, tmp_U))
-        U = 0
         tmp_U.clear()
         U_data.append(result)
-
     return U_data, interval_t, interval_z
 
 
 def graph_U_t_const():
-    n, L, T, c, lyambda = int(n_tf.get()), int(L_tf.get()), float(T_tf.get()), int(c_tf.get()), int(lyambda_tf.get())
+    n, L, T, c, lyambda = int(n_tf.get()), int(L_tf.get()), float(T_tf.get()), float(c_tf.get()), int(lyambda_tf.get())
     U_data, interval_t, interval_z = U_calculation_t_const(n, L, T, c, lyambda)
     i = 0
     for t in interval_t:
@@ -95,7 +102,7 @@ def graph_U_t_const():
         plt.show()
 
 def graph_U_z_const():
-    n, L, T, c, lyambda = int(n_tf.get()), int(L_tf.get()), float(T_tf.get()), int(c_tf.get()), int(lyambda_tf.get())
+    n, L, T, c, lyambda = int(n_tf.get()), int(L_tf.get()), float(T_tf.get()), float(c_tf.get()), int(lyambda_tf.get())
 
     U_data, interval_t, interval_z = U_calculation_z_const(n, L, T, c, lyambda)
     i = 0
