@@ -99,7 +99,7 @@ def graph_U_t_const():
         ax.set_title(f'График зависимости U(z,t) от z при фиксированном t = {t}')
         plt.plot(interval_z, U_data[i], color="blue", linewidth=1, linestyle="-", label=f't = {t}')
         i += 1
-        plt.show()
+    plt.show()
 
 def graph_U_z_const():
     n, L, T, c, lyambda = int(n_tf.get()), int(L_tf.get()), float(T_tf.get()), float(c_tf.get()), int(lyambda_tf.get())
@@ -127,7 +127,7 @@ def graph_U_z_const():
         ax.set_title(f'График зависимости U(z,t) от t при фиксированном z = {z}')
         plt.plot(interval_t, U_data[i], color="blue", linewidth=1, linestyle="-", label=f'z = {z}')
         i += 1
-        plt.show()
+    plt.show()
 
 #graph_U_z_const(100, L, T, c)
 
@@ -172,33 +172,35 @@ n_lb = Label(
 )
 n_lb.grid(row=7, column=1)
 
-
-
 L_tf = Entry(
     frame,
 )
 L_tf.grid(row=3, column=2, pady=5)
+L_tf.insert(0, '9')
 
 T_tf = Entry(
     frame,
 )
 T_tf.grid(row=4, column=2, pady=5)
+T_tf.insert(0, '4e-14')
 
 c_tf = Entry(
     frame,
 )
 c_tf.grid(row=5, column=2, pady=5)
+c_tf.insert(0, '3e14')
 
 lyambda_tf = Entry(
     frame,
 )
 lyambda_tf.grid(row=6, column=2, pady=5)
+lyambda_tf.insert(0, '3')
 
 n_tf = Entry(
     frame,
 )
 n_tf.grid(row=7, column=2, pady=5)
-
+n_tf.insert(0, '200')
 
 cal_btn = Button(
     frame,
